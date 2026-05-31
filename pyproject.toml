@@ -22,7 +22,9 @@ exclude = [
 	".venv",
 	".idea"
 ]
-line-length = 79
+line-length = 80
+fix = true
+show-fixes = true
 
 [tool.ruff.lint]
 select = [
@@ -35,10 +37,14 @@ select = [
     "N", # PEP-8 Naming
     "SIM" # flake8-simplify
 ]
+ignore-init-module-imports = false
+unfixable = ["F401"]
 
 [tool.ruff.format]
-quote-style = "single"
+quote-style = "double"
 indent-style = "space"
 docstring-code-format = true
 docstring-code-line-length = 72
-preview = true
+
+[tool.ruff.lint.isort]
+force-sort-within-sections = true
