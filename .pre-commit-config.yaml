@@ -6,7 +6,7 @@ repos:
         stages: [pre-push]
         language: system
         pass_filenames: false
-        entry: python -m pytest tests\
+        entry: pytest tests
 
       - id: bandit
         name: security_analysis
