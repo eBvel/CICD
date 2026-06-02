@@ -21,3 +21,44 @@ jobs:
         run: |
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
+
+  Code-formatting:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v6
+
+      - name: Setup python
+        uses: actions/setup-python@v6
+        with:
+          pythen-version: '3.10'
+
+      - name: Setup poetry
+        run: curl -sSL https://install.python-poetry.org | python3 - | export PATH="$HOME/.local/bin:$PATH"
+
+      - name: Install dependencies
+        run: poetry install --with=dev
+
+      - name: Ruff checking
+        run: ruff check .
+
+  Perform-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v6
+
+      - name: Setup python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.10'
+
+      - name: Install pytest
+        run: python -m pip install --upgrade pip | pip install pytest
+
+      - name: Perform tests
+        run: pytest tests
+
+      - name: Build Docker image
+        uses: docker/build-push-action
+
