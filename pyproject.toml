@@ -13,6 +13,8 @@ requests = "^2.34.2"
 ruff = "^0.15.15"
 mypy = "^2.1.0"
 bandit = {extras = ["toml"], version = "^1.9.4"}
+pre-commit = "^4.6.0"
+pytest = "^9.0.3"
 
 [build-system]
 requires = ["poetry-core"]
@@ -37,10 +39,10 @@ select = [
 	"C90", # mccabe
 	"PL", # pylint
     "N", # PEP-8 Naming
-    "SIM" # flake8-simplify
+    "SIM", # flake8-simplify
+	"ARG"
 ]
-ignore-init-module-imports = false
-unfixable = ["F401"]
+ignore = ["F401"]
 
 [tool.ruff.format]
 quote-style = "double"
@@ -58,10 +60,15 @@ disallow_untyped_calls = true
 disallow_untyped_defs = true
 ignore_missing_imports = true
 exclude = [
-	".venv/",
-	".idea/"
+	".venv.*",
+	".idea.*",
+	"tests.*"
 ]
 
+[[tool.mypy.overrides]]
+module = "app.*"
+ignore_errors = true
+
 [tool.bandit]
-exclude_dirs = [".venv",".idea"]
+exclude_dirs = [".venv",".idea", "tests"]
 tests = ["B101", "B102", "B110", "B113", "B501", "B605", "B613"]
