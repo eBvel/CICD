@@ -4,6 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["eBvel <belyakov041098@gmail.com>"]
 readme = "README.md"
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -15,6 +16,9 @@ mypy = "^2.1.0"
 bandit = {extras = ["toml"], version = "^1.9.4"}
 pre-commit = "^4.6.0"
 pytest = "^9.0.3"
+
+[tool.poetry.group.test.dependencies]
+pytest = "^9.1.1"
 
 [build-system]
 requires = ["poetry-core"]
