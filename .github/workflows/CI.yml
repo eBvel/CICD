@@ -34,10 +34,14 @@ jobs:
           pythen-version: '3.10'
 
       - name: Setup poetry
-        run: curl -sSL https://install.python-poetry.org | python3 - | export PATH="$HOME/.local/bin:$PATH"
+        run: |
+          python3 -m pip install --upgrade pip
+          pip install poetry
 
-      - name: Install dependencies
-        run: poetry install --only=dev
+      - name: Set up ruff
+        run: |
+          poetry config virtualenvs.create false 
+          poetry install --only=checking
 
       - name: Ruff checking
         run: ruff check .
