@@ -46,6 +46,17 @@ jobs:
       - name: Ruff checking
         run: ruff check .
 
+      - name: Pre-commit checking
+        run: |
+          pre-commit run
+          pre-commit run --hook-stage pre-push
+
+      - name: Mypy checking
+        run: mypy --config-file pyproject.toml .
+
+      - name: Bandit checking
+        run: bandit -c pyproject.toml -r .
+
   Build-image:
     runs-on: ubuntu-latest
     steps:
