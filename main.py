@@ -2,7 +2,7 @@ import requests
 
 
 def get_current_weather(city: str) -> str:
-    response = requests.get(url=f"https://wttr.in/{city}?format=%t")
+    response = requests.get(url=f"https://wttr.in/{city}?format=%t", timeout=5)
     return f"{city}: {response.text}"
 
 

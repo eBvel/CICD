@@ -2,3 +2,4 @@
 /.idea
 /poetry.lock
 /poetry.toml
+__pycache__/
