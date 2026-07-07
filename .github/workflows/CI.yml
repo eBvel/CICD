@@ -4,24 +4,6 @@ run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: [push]
 
 jobs:
-
-  Explore-GitHub-Actions:
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-
-      - name: Check out repository code
-        uses: actions/checkout@v6
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
-
   Code-formatting:
     runs-on: ubuntu-latest
     steps:
@@ -31,31 +13,29 @@ jobs:
       - name: Setup python
         uses: actions/setup-python@v6
         with:
-          pythen-version: '3.10'
+          python-version: '3.10'
 
       - name: Setup poetry
         run: |
           python3 -m pip install --upgrade pip
           pip install poetry
 
-      - name: Set up ruff
-        run: |
-          poetry config virtualenvs.create false 
-          poetry install --only=checking
+      - name: Setup dependencies
+        run: poetry install --with=checking
 
       - name: Ruff checking
-        run: ruff check .
+        run: poetry run ruff check .
 
       - name: Pre-commit checking
         run: |
-          pre-commit run
-          pre-commit run --hook-stage pre-push
+          poetry run pre-commit run
+          poetry run pre-commit run --hook-stage pre-push
 
       - name: Mypy checking
-        run: mypy --config-file pyproject.toml .
+        run: poetry run mypy --config-file pyproject.toml .
 
       - name: Bandit checking
-        run: bandit -c pyproject.toml -r .
+        run: poetry run bandit -c pyproject.toml -r .
 
   Build-image:
     runs-on: ubuntu-latest
@@ -63,7 +43,7 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v6
 
-      - name: Set up Docker Buildx
+      - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v4
 
       - name: Build and export to Docker
