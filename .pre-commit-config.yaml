@@ -4,9 +4,10 @@ repos:
       - id: tests
         name: perform_tests
         stages: [pre-push]
-        language: system
+        language: python
         pass_filenames: false
-        entry: pytest tests
+        entry: pytest --cache-clear tests
+        exclude: '__pycache__/'
 
       - id: bandit
         name: security_analysis
@@ -35,4 +36,4 @@ repos:
         language: system
         types: [ python ]
         pass_filenames: false
-        entry: mypy --config-file .\\pyproject.toml .
+        entry: mypy --config-file pyproject.toml .
