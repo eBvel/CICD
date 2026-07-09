@@ -23,13 +23,13 @@ jobs:
       - name: Setup dependencies
         run: poetry install --with=checking
 
-      - name: Ruff checking
-        run: poetry run ruff check .
-
       - name: Pre-commit checking
         run: |
-          poetry run pre-commit run
-          poetry run pre-commit run --hook-stage pre-push
+          poetry run pre-commit run --hook-stage pre-push -a
+          poetry run pre-commit run -a
+
+      - name: Ruff checking
+        run: poetry run ruff check .
 
       - name: Mypy checking
         run: poetry run mypy --config-file pyproject.toml .
